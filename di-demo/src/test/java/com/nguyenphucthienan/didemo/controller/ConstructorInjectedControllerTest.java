@@ -1,6 +1,6 @@
 package com.nguyenphucthienan.didemo.controller;
 
-import com.nguyenphucthienan.didemo.service.GreetingServiveImpl;
+import com.nguyenphucthienan.didemo.service.GreetingServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,11 +11,11 @@ public class ConstructorInjectedControllerTest {
 
     @Before
     public void setUp() {
-        this.constructorInjectedController = new ConstructorInjectedController(new GreetingServiveImpl());
+        this.constructorInjectedController = new ConstructorInjectedController(new GreetingServiceImpl());
     }
 
     @Test
     public void testGreeting() {
-        assertEquals(GreetingServiveImpl.HELLO_SPRING, constructorInjectedController.sayHello());
+        assertEquals(GreetingServiceImpl.HELLO_SPRING, constructorInjectedController.sayHello());
     }
 }
