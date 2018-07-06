@@ -16,6 +16,6 @@ public class ConstructorInjectedControllerTest {
 
     @Test
     public void testGreeting() {
-        assertEquals(GreetingServiceImpl.HELLO_SPRING, constructorInjectedController.sayHello());
+        assertEquals(GreetingServiceImpl.HELLO, constructorInjectedController.sayHello());
     }
 }

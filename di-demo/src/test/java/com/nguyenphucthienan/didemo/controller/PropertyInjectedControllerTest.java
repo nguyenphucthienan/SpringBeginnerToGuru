@@ -17,6 +17,6 @@ public class PropertyInjectedControllerTest {
 
     @Test
     public void testGreeting() {
-        assertEquals(GreetingServiceImpl.HELLO_SPRING, propertyInjectedController.sayHello());
+        assertEquals(GreetingServiceImpl.HELLO, propertyInjectedController.sayHello());
     }
 }
