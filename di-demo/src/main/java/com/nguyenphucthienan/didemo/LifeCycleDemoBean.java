@@ -17,21 +17,21 @@ public class LifeCycleDemoBean implements InitializingBean, DisposableBean, Bean
     }
 
     public void beforeInit() {
-        System.out.println("## 4. beforeInit - called by BeanPostProcessor");
+        System.out.println("## 5. beforeInit - called by BeanPostProcessor");
     }
 
     public void afterInit() {
-        System.out.println("## 7. afterInit - called by BeanPostProcessor");
+        System.out.println("## 8. afterInit - called by BeanPostProcessor");
     }
 
     @Override
     public void afterPropertiesSet() {
-        System.out.println("## 6. afterPropertiesSet");
+        System.out.println("## 7. afterPropertiesSet");
     }
 
     @Override
     public void destroy() {
-        System.out.println("## 9. destroy. The lifecycle Bean has been terminated");
+        System.out.println("## 10. destroy. The lifecycle Bean has been terminated");
     }
 
     @Override
@@ -46,16 +46,16 @@ public class LifeCycleDemoBean implements InitializingBean, DisposableBean, Bean
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
+        System.out.println("## 4. setApplicationContext");
     }
 
     @PostConstruct
     public void postConstruct() {
-        System.out.println("## 5. @PostConstruct");
+        System.out.println("## 6. @PostConstruct");
     }
 
     @PreDestroy
     public void PreDestroy() {
-        System.out.println("## 8. @PreDestroy");
+        System.out.println("## 9. @PreDestroy");
     }
 }
