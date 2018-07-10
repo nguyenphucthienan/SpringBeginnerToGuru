@@ -1,0 +1,36 @@
+# this is a comment
+
+name: Nguyen Phuc Thien An
+
+names: # comment
+  - Nguyen
+  - Phuc
+  - Thien
+  - An
+
+pound_sign: "#"
+
+book:
+  author: ABC
+  publisher: XYZ
+
+truth: yes
+another_truth: True
+more_truth: true
+
+false: no # No, false, FALSE
+
+string_value: "This is it's quote"
+
+colon_string: "My courses: one two three"
+
+include_new_lines: |
+  first line
+  second line
+  third line
+
+ignore_new_lines: >
+  this is
+  just one long
+  string
+
