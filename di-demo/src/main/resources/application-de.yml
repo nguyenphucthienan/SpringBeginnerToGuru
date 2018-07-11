@@ -1,0 +1,5 @@
+#spring:
+#  profiles: de
+#npta:
+#  jms:
+#    username: JMS username (DE)

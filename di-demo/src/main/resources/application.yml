@@ -3,3 +3,10 @@ npta:
     username: JMS username
     password: drowssap
     url: jms.test.db
+
+---
+spring:
+  profiles: de
+npta:
+  jms:
+    username: JMS username (DE)
