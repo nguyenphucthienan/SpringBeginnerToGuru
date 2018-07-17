@@ -1,6 +1,5 @@
 package com.nguyenphucthienan.recipeapp.command;
 
-import com.nguyenphucthienan.recipeapp.domain.Category;
 import com.nguyenphucthienan.recipeapp.domain.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
