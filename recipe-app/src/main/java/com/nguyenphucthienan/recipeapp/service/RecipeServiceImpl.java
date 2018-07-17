@@ -1,8 +1,8 @@
 package com.nguyenphucthienan.recipeapp.service;
 
 import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
-import com.nguyenphucthienan.recipeapp.converters.RecipeCommandToRecipe;
-import com.nguyenphucthienan.recipeapp.converters.RecipeToRecipeCommand;
+import com.nguyenphucthienan.recipeapp.converter.RecipeCommandToRecipe;
+import com.nguyenphucthienan.recipeapp.converter.RecipeToRecipeCommand;
 import com.nguyenphucthienan.recipeapp.domain.Recipe;
 import com.nguyenphucthienan.recipeapp.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;

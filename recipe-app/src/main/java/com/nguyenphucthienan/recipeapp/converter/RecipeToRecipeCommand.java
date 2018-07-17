@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.recipeapp.converters;
+package com.nguyenphucthienan.recipeapp.converter;
 
 import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
 import com.nguyenphucthienan.recipeapp.domain.Recipe;
