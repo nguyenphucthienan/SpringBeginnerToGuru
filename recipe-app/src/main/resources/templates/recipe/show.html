@@ -14,10 +14,10 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="container-fluid" style="margin-top: 20px">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div class="pannel-group">
+            <div class="panel-group">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h1 class="panel-title" th:text="${recipe.description}"></h1>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <h5>Cooktime:</h5>
+                                <h5>Cook Time:</h5>
                             </div>
                             <div class="col-md-3">
                                 <p th:text="${recipe.cookTime} + ' min'"></p>
