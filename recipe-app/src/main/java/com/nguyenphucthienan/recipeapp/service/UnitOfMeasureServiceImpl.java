@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class UnitOfMeasureImpl implements UnitOfMeasureService {
+public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
 
-    public UnitOfMeasureImpl(UnitOfMeasureRepository unitOfMeasureRepository,
-                             UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
+    public UnitOfMeasureServiceImpl(UnitOfMeasureRepository unitOfMeasureRepository,
+                                    UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
     }
