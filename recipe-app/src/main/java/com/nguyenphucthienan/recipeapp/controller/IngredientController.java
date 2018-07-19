@@ -1,6 +1,8 @@
 package com.nguyenphucthienan.recipeapp.controller;
 
 import com.nguyenphucthienan.recipeapp.command.IngredientCommand;
+import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
+import com.nguyenphucthienan.recipeapp.command.UnitOfMeasureCommand;
 import com.nguyenphucthienan.recipeapp.service.IngredientService;
 import com.nguyenphucthienan.recipeapp.service.RecipeService;
 import com.nguyenphucthienan.recipeapp.service.UnitOfMeasureService;
@@ -30,6 +32,24 @@ public class IngredientController {
         log.debug("Getting ingredient list for recipe id: " + recipeId);
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(recipeId)));
         return "recipe/ingredient/list";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newRecipeIngredient(@PathVariable String recipeId, Model model) {
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        if (recipeCommand == null) {
+            // TODO Raise exception if null
+        }
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("ingredient", ingredientCommand);
+        model.addAttribute("unitOfMeasureList", unitOfMeasureService.getAllUnitOfMeasures());
+        return "recipe/ingredient/ingredient-form";
     }
 
     @GetMapping
