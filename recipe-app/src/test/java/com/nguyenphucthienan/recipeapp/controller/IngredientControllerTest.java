@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.HashSet;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -58,6 +60,23 @@ public class IngredientControllerTest {
     }
 
     @Test
+    public void testGetNewIngredientForm() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(unitOfMeasureService.getAllUnitOfMeasures()).thenReturn(new HashSet<>());
+
+        mockMvc.perform(get("/recipe/1/ingredient/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(model().attributeExists("unitOfMeasureList"))
+                .andExpect(view().name("recipe/ingredient/ingredient-form"));
+
+        verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+    @Test
     public void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
@@ -87,7 +106,7 @@ public class IngredientControllerTest {
     }
 
     @Test
-    public void testUpdateOrDeleteIngredient() throws Exception {
+    public void testSaveOrUpdateIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setId(2L);
         ingredientCommand.setRecipeId(1L);
