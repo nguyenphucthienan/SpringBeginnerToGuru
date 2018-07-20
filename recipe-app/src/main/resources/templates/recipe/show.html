@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-md-1">
                                 <a class="btn btn-default" href="#"
-                                   th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
+                                   th:href="@{'/recipe/' + ${recipe.id} + '/image-upload'}" role="button">Change Image</a>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-6">
-                                <img th:src="@{/images/guacamole400x400.jpg}"
+                                <img th:src="@{'/recipe/' + ${recipe.id} + '/image'}"
                                      width="200" height="200">
                             </div>
                         </div>
