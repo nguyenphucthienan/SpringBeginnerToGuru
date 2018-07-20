@@ -7,10 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -46,7 +48,7 @@ public class ImageControllerTest {
 
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
 
-        mockMvc.perform(get("/recipe/1/image"))
+        mockMvc.perform(get("/recipe/1/image-upload"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"))
                 .andExpect(view().name("recipe/image-upload-form"));
@@ -64,5 +66,33 @@ public class ImageControllerTest {
                 .andExpect(header().string("Location", "/recipe/1/show"));
 
         verify(imageService, times(1)).saveImageFile(anyLong(), any());
+    }
+
+    @Test
+    public void renderImageFromDb() throws Exception {
+        // Given
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        String str = "Image text";
+        Byte[] bytesBoxed = new Byte[str.getBytes().length];
+
+        int i = 0;
+        for (byte primitiveByte : str.getBytes()) {
+            bytesBoxed[i++] = primitiveByte;
+        }
+
+        recipeCommand.setImage(bytesBoxed);
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+
+        // When
+        MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/image"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+
+        // Then
+        byte[] responseBytes = response.getContentAsByteArray();
+        assertEquals(str.getBytes().length, responseBytes.length);
     }
 }
