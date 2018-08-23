@@ -1,11 +1,14 @@
 package com.nguyenphucthienan.recipeapp.controller;
 
 import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
+import com.nguyenphucthienan.recipeapp.exception.NotFoundException;
 import com.nguyenphucthienan.recipeapp.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -45,5 +48,13 @@ public class RecipeController {
         log.debug("Deleting id: " + id);
         recipeService.deleteById(Long.valueOf(id));
         return "redirect:/";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFoundException() {
+        log.error("Handling not found exception");
+        ModelAndView modelAndView = new ModelAndView("404");
+        return modelAndView;
     }
 }
