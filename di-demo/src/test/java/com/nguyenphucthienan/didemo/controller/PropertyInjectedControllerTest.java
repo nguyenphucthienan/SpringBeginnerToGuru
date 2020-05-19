@@ -1,22 +1,23 @@
 package com.nguyenphucthienan.didemo.controller;
 
-import com.nguyenphucthienan.didemo.service.GreetingServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import com.nguyenphucthienan.didemo.service.PrimaryGreetingService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PropertyInjectedControllerTest {
+
     private PropertyInjectedController propertyInjectedController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        this.propertyInjectedController = new PropertyInjectedController();
-        this.propertyInjectedController.greetingService = new GreetingServiceImpl();
+        propertyInjectedController = new PropertyInjectedController();
+        propertyInjectedController.greetingService = new PrimaryGreetingService();
     }
 
     @Test
     public void testGreeting() {
-        assertEquals(GreetingServiceImpl.HELLO, propertyInjectedController.sayHello());
+        assertEquals(PrimaryGreetingService.HELLO_MESSAGE, propertyInjectedController.sayHello());
     }
 }

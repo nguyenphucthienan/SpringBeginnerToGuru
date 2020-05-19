@@ -1,22 +1,24 @@
 package com.nguyenphucthienan.didemo.controller;
 
-import com.nguyenphucthienan.didemo.service.GreetingServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import com.nguyenphucthienan.didemo.service.PrimaryGreetingService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SetterInjectedControllerTest {
+
     private SetterInjectedController setterInjectedController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        this.setterInjectedController= new SetterInjectedController();
-        this.setterInjectedController.setGreetingService(new GreetingServiceImpl());
+        setterInjectedController = new SetterInjectedController();
+        setterInjectedController.setGreetingService(new PrimaryGreetingService());
     }
 
     @Test
     public void testGreeting() {
-        assertEquals(GreetingServiceImpl.HELLO, setterInjectedController.sayHello());
+        assertEquals(PrimaryGreetingService.HELLO_MESSAGE, setterInjectedController.sayHello());
+
     }
 }

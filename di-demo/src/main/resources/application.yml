@@ -1,12 +1,9 @@
 npta:
+  db:
+    username: username
+    password: password
+    url: test.db
   jms:
-    username: JMS username
-    password: drowssap
+    username: JMSUsername
+    password: JMSPassword
     url: jms.test.db
-
----
-spring:
-  profiles: de
-npta:
-  jms:
-    username: JMS username (DE)

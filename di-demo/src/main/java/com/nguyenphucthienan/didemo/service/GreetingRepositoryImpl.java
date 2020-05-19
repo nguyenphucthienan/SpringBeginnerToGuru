@@ -4,18 +4,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GreetingRepositoryImpl implements GreetingRepository {
+
     @Override
     public String getEnglishGreeting() {
-        return "Hello - Primary Greeting service";
+        return "Hello - English Greeting Service";
     }
 
     @Override
     public String getSpanishGreeting() {
-        return "Hello - Servicio de Saludo Primario";
+        return "Hola - Spanish Greeting Service";
     }
 
     @Override
     public String getGermanGreeting() {
-        return "Hello - Primärer Dienst";
+        return "Hallo - German Greeting Service";
     }
 }

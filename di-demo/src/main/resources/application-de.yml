@@ -1,5 +1,7 @@
-#spring:
-#  profiles: de
-#npta:
-#  jms:
-#    username: JMS username (DE)
+spring:
+  profiles: de
+npta:
+  db:
+    username: username (DE)
+  jms:
+    username: JMSUsername (DE)

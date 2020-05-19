@@ -3,11 +3,10 @@ package com.nguyenphucthienan.didemo.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GreetingServiceImpl implements GreetingService {
-    public static String HELLO = "Hello - Original";
+public class PropertyGreetingService implements GreetingService {
 
     @Override
     public String sayGreeting() {
-        return HELLO;
+        return "Hello - Property";
     }
 }

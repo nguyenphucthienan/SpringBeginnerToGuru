@@ -1,6 +1,7 @@
-package com.nguyenphucthienan.didemo.examplebeans;
+package com.nguyenphucthienan.didemo.beans;
 
 public class FakeJmsBroker {
+
     private String username;
     private String password;
     private String url;

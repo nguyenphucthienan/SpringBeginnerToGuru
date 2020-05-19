@@ -1,21 +1,16 @@
 package com.nguyenphucthienan.didemo.service;
 
-// import org.springframework.context.annotation.Primary;
-// import org.springframework.context.annotation.Profile;
-// import org.springframework.stereotype.Service;
-//
-// @Service
-// @Primary
-// @Profile({"en", "default"})
-public class PrimaryGreetingService implements GreetingService {
-    private GreetingRepository greetingRepository;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
-    public PrimaryGreetingService(GreetingRepository greetingRepository) {
-        this.greetingRepository = greetingRepository;
-    }
+@Service
+@Primary
+public class PrimaryGreetingService implements GreetingService {
+
+    public static final String HELLO_MESSAGE = "Hello - Primary Greeting Service";
 
     @Override
     public String sayGreeting() {
-        return greetingRepository.getEnglishGreeting();
+        return HELLO_MESSAGE;
     }
 }
