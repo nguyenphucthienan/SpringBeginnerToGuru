@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.springwebapp.model;
+package com.nguyenphucthienan.springwebapp.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -7,13 +7,15 @@ import java.util.HashSet;
 
 @Entity
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String title;
     private String isbn;
 
-    @OneToOne
+    @ManyToOne
     private Publisher publisher;
 
     @ManyToMany
@@ -24,17 +26,9 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String isbn, Publisher publisher) {
+    public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
-        this.publisher = publisher;
-    }
-
-    public Book(String title, String isbn, Publisher publisher, Set<Author> authors) {
-        this.title = title;
-        this.isbn = isbn;
-        this.publisher = publisher;
-        this.authors = authors;
     }
 
     public Long getId() {
@@ -83,8 +77,6 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", authors=" + authors +
                 '}';
     }
 
@@ -98,7 +90,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 }
