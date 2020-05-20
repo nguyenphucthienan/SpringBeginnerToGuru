@@ -1,7 +1,5 @@
-spring:
-  profiles: de
-npta:
-  db:
-    username: username (DE)
-  jms:
-    username: JMSUsername (DE)
+#npta:
+#  db:
+#    username: username (from application-de.yml)
+#  jms:
+#    username: JMSUsername (from application-de.yml)

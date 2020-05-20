@@ -24,9 +24,10 @@ public class DiDemoApplication {
         System.out.println("Constructor" + context.getBean(ConstructorInjectedController.class).sayHello());
 
         FakeDataSource fakeDataSource = context.getBean(FakeDataSource.class);
-        System.out.println("Data Source: " + fakeDataSource.getUsername());
+        System.out.println("Data Source URL: " + fakeDataSource.getUrl());
+        System.out.println("Data Source Username: " + fakeDataSource.getUsername());
 
         FakeJmsBroker fakeJmsBroker = context.getBean(FakeJmsBroker.class);
-        System.out.println("JMS Broker: " + fakeJmsBroker.getUsername());
+        System.out.println("JMS Broker Username: " + fakeJmsBroker.getUsername());
     }
 }

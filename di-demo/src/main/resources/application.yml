@@ -1,9 +1,11 @@
-npta:
-  db:
-    username: username
-    password: password
-    url: test.db
-  jms:
-    username: JMSUsername
-    password: JMSPassword
-    url: jms.test.db
+#spring:
+#  profiles: de
+#npta:
+#  db:
+#    username: username (from application.yml)
+#    password: password
+#    url: test.db
+#  jms:
+#    username: JMSUsername (from application.yml)
+#    password: JMSPassword
+#    url: jms.test.db

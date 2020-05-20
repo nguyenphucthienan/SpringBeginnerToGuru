@@ -11,8 +11,8 @@ names: # comment
 pound_sign: "#"
 
 book:
-  author: ABC
-  publisher: XYZ
+  author: Author
+  publisher: Publisher
 
 truth: yes
 another_truth: True
@@ -33,4 +33,3 @@ ignore_new_lines: >
   this is
   just one long
   string
-
