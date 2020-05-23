@@ -10,6 +10,7 @@ import javax.validation.constraints.Null;
 
 @Component
 public class NotesCommandToNotes implements Converter<NotesCommand, Notes> {
+
     @Synchronized
     @Null
     @Override

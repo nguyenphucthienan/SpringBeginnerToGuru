@@ -1,14 +1,15 @@
 package com.nguyenphucthienan.recipeapp.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Notes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

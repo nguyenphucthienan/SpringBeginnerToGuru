@@ -10,11 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UnitOfMeasureRepositoryTest {
+public class UnitOfMeasureRepositoryIT {
+
     @Autowired
     UnitOfMeasureRepository unitOfMeasureRepository;
 
@@ -25,12 +26,13 @@ public class UnitOfMeasureRepositoryTest {
     @Test
     public void findByDescriptionTeaspoon() {
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-        assertEquals("Teaspoon", unitOfMeasureOptional.get().getDescription());
+        unitOfMeasureOptional.ifPresent(unitOfMeasure ->
+                assertEquals("Teaspoon", unitOfMeasure.getDescription()));
     }
 
     @Test
     public void findByDescriptionCup() {
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Cup");
-        assertEquals("Cup", unitOfMeasureOptional.get().getDescription());
+        unitOfMeasureOptional.ifPresent(unitOfMeasure -> assertEquals("Cup", unitOfMeasure.getDescription()));
     }
 }

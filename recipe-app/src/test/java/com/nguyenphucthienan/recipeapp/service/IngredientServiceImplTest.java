@@ -19,11 +19,10 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class IngredientServiceImplTest {
+
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
@@ -43,7 +42,6 @@ public class IngredientServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
         ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository,
                 ingredientToIngredientCommand, ingredientCommandToIngredient);
     }

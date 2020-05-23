@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CategoryCommandToCategoryTest {
+
     public static final Long ID = 1L;
     public static final String DESCRIPTION = "description";
 

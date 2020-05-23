@@ -15,21 +15,23 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
-    RecipeServiceImpl recipeService;
+
+    private RecipeServiceImpl recipeService;
 
     @Mock
-    RecipeRepository recipeRepository;
+    private RecipeRepository recipeRepository;
 
     @Mock
-    RecipeToRecipeCommand recipeToRecipeCommand;
+    private RecipeToRecipeCommand recipeToRecipeCommand;
 
     @Mock
-    RecipeCommandToRecipe recipeCommandToRecipe;
+    private RecipeCommandToRecipe recipeCommandToRecipe;
 
     @Before
     public void setUp() {
@@ -40,7 +42,7 @@ public class RecipeServiceImplTest {
     @Test
     public void getRecipesTest() {
         Recipe recipe = new Recipe();
-        Set recipeData = new HashSet<Recipe>();
+        Set<Recipe> recipeData = new HashSet<>();
         recipeData.add(recipe);
 
         when(recipeService.getRecipes()).thenReturn(recipeData);
@@ -67,11 +69,10 @@ public class RecipeServiceImplTest {
     @Test(expected = NotFoundException.class)
     public void getRecipeByIdTestNotFound() {
         Optional<Recipe> recipeOptional = Optional.empty();
-
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
-        // Should throw exception
-        Recipe recipeReturned = recipeService.findById(1L);
+        // Should throw the exception
+        Recipe returnRecipe = recipeService.findById(1L);
     }
 
     @Test
@@ -96,10 +97,8 @@ public class RecipeServiceImplTest {
 
     @Test
     public void testDeleteById() {
-        Long idToDelete = Long.valueOf(1L);
-
-        recipeService.deleteById(idToDelete);
-
+        Long id = 1L;
+        recipeService.deleteById(id);
         verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }

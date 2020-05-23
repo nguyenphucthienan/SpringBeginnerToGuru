@@ -19,6 +19,7 @@ import java.io.InputStream;
 
 @Controller
 public class ImageController {
+
     private final RecipeService recipeService;
     private final ImageService imageService;
 
@@ -42,7 +43,6 @@ public class ImageController {
     @GetMapping("/recipe/{id}/image")
     public void renderImageFromDb(@PathVariable String id, HttpServletResponse response) throws IOException {
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
-
         byte[] byteArray = new byte[recipeCommand.getImage().length];
 
         int i = 0;

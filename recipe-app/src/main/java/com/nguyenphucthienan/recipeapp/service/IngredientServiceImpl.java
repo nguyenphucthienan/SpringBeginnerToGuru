@@ -11,11 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
 @Service
 public class IngredientServiceImpl implements IngredientService {
+
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -75,7 +77,7 @@ public class IngredientServiceImpl implements IngredientService {
                 .findFirst();
 
         if (!ingredientOptional.isPresent()) {
-            recipe.addIngredient(ingredientCommandToIngredient.convert(ingredientCommand));
+            recipe.addIngredient(Objects.requireNonNull(ingredientCommandToIngredient.convert(ingredientCommand)));
         } else {
             Ingredient foundIngredient = ingredientOptional.get();
             foundIngredient.setDescription(ingredientCommand.getDescription());
@@ -108,7 +110,7 @@ public class IngredientServiceImpl implements IngredientService {
     public void deleteById(Long recipeId, Long ingredientId) {
         log.debug("Deleting ingredient - recipe id: " + recipeId + " - ingredient id: " + ingredientId);
 
-        Optional<Recipe> recipeOptional = recipeRepository.findById(Long.valueOf(recipeId));
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
         if (!recipeOptional.isPresent()) {
             // TODO Implement error handling

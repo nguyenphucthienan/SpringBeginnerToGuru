@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import static org.junit.Assert.*;
 
 public class IngredientToIngredientCommandTest {
+
     public static final Long ID = 1L;
     public static final String DESCRIPTION = "Cheeseburger";
     public static final BigDecimal AMOUNT = new BigDecimal("1");
