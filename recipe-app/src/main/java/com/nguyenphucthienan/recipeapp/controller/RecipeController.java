@@ -50,6 +50,7 @@ public class RecipeController {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "recipe/recipe-form";
         }
+
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
         return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
     }

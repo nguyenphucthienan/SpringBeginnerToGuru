@@ -19,14 +19,14 @@ import java.util.Optional;
 @Slf4j
 @Component
 @Profile("default")
-public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
+public class H2Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository,
-                           UnitOfMeasureRepository unitOfMeasureRepository) {
+    public H2Bootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository,
+                       UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
