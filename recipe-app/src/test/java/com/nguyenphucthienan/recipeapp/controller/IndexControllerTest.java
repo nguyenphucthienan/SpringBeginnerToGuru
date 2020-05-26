@@ -46,6 +46,7 @@ public class IndexControllerTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getIndexPage() {
         Set<Recipe> recipes = new HashSet<>();
         Recipe recipe = new Recipe();
