@@ -43,8 +43,9 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeReactiveRepository.findById(id)
                 .map(recipe -> {
                     RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
-                    Objects.requireNonNull(recipeCommand).getIngredients()
-                            .forEach(ingredientCommand -> ingredientCommand.setRecipeId(recipeCommand.getId()));
+                    Objects.requireNonNull(recipeCommand).getIngredients().forEach(ingredientCommand -> {
+                        ingredientCommand.setRecipeId(recipeCommand.getId());
+                    });
                     return recipeCommand;
                 });
     }

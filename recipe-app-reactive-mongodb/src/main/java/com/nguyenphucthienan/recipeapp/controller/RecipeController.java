@@ -1,17 +1,16 @@
 package com.nguyenphucthienan.recipeapp.controller;
 
 import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
+import com.nguyenphucthienan.recipeapp.domain.Recipe;
 import com.nguyenphucthienan.recipeapp.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
 import java.util.Objects;
 
 @Slf4j
@@ -21,6 +20,7 @@ public class RecipeController {
     private static final String RECIPE_FORM_URL = "recipe/recipe-form";
 
     private final RecipeService recipeService;
+    private WebDataBinder webDataBinder;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -28,8 +28,13 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(id).block());
+        model.addAttribute("recipe", recipeService.findById(id));
         return "recipe/show";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
     }
 
     @GetMapping("/recipe/new")
@@ -45,8 +50,10 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public String createOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand,
-                                       BindingResult bindingResult) {
+    public String createOrUpdateRecipe(@ModelAttribute("recipe") RecipeCommand recipeCommand) {
+        webDataBinder.validate();
+        BindingResult bindingResult = webDataBinder.getBindingResult();
+
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "recipe/recipe-form";
