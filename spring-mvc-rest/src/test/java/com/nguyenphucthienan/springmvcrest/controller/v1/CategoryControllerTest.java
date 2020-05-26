@@ -1,6 +1,7 @@
 package com.nguyenphucthienan.springmvcrest.controller.v1;
 
 import com.nguyenphucthienan.springmvcrest.api.v1.model.CategoryDTO;
+import com.nguyenphucthienan.springmvcrest.controller.v1.handler.RestResponseEntityExceptionHandler;
 import com.nguyenphucthienan.springmvcrest.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,10 @@ class CategoryControllerTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(categoryController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test

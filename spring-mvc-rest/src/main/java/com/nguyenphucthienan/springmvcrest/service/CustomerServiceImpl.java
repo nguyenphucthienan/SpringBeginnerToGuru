@@ -4,6 +4,7 @@ import com.nguyenphucthienan.springmvcrest.api.v1.mapper.CustomerMapper;
 import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.controller.v1.CustomerController;
 import com.nguyenphucthienan.springmvcrest.domain.Customer;
+import com.nguyenphucthienan.springmvcrest.exception.ResourceNotFoundException;
 import com.nguyenphucthienan.springmvcrest.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer ID " + id + " not found"));
+
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
         customerDTO.setCustomerUrl(getCustomerUrl(Objects.requireNonNull(customer).getId()));
         return customerDTO;
@@ -76,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerDTO returnCustomerDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
             returnCustomerDTO.setCustomerUrl(getCustomerUrl(id));
             return returnCustomerDTO;
-        }).orElseThrow(RuntimeException::new); // TODO: Implement better exception handling;
+        }).orElseThrow(() -> new ResourceNotFoundException("Customer ID " + id + " not found"));
     }
 
     @Override

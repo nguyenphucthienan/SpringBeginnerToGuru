@@ -3,6 +3,7 @@ package com.nguyenphucthienan.springmvcrest.service;
 import com.nguyenphucthienan.springmvcrest.api.v1.mapper.CategoryMapper;
 import com.nguyenphucthienan.springmvcrest.api.v1.model.CategoryDTO;
 import com.nguyenphucthienan.springmvcrest.domain.Category;
+import com.nguyenphucthienan.springmvcrest.exception.ResourceNotFoundException;
 import com.nguyenphucthienan.springmvcrest.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByName(String name) {
-        Category category = categoryRepository.findByName(name).orElse(null);
+        Category category = categoryRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Category " + name + " not found"));
+
         return categoryMapper.categoryToCategoryDTO(category);
     }
 }
