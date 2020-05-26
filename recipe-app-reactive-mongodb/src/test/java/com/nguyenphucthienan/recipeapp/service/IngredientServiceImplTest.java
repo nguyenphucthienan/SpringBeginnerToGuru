@@ -7,14 +7,15 @@ import com.nguyenphucthienan.recipeapp.converter.UnitOfMeasureCommandToUnitOfMea
 import com.nguyenphucthienan.recipeapp.converter.UnitOfMeasureToUnitOfMeasureCommand;
 import com.nguyenphucthienan.recipeapp.domain.Ingredient;
 import com.nguyenphucthienan.recipeapp.domain.Recipe;
-import com.nguyenphucthienan.recipeapp.repository.RecipeRepository;
-import com.nguyenphucthienan.recipeapp.repository.UnitOfMeasureRepository;
+import com.nguyenphucthienan.recipeapp.repository.reactive.RecipeReactiveRepository;
+import com.nguyenphucthienan.recipeapp.repository.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import reactor.core.publisher.Mono;
 
-import java.util.Optional;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,10 +27,10 @@ public class IngredientServiceImplTest {
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeReactiveRepository recipeReactiveRepository;
 
     @Mock
-    UnitOfMeasureRepository unitOfMeasureRepository;
+    UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
 
     IngredientService ingredientService;
 
@@ -41,7 +42,7 @@ public class IngredientServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository,
+        ingredientService = new IngredientServiceImpl(recipeReactiveRepository, unitOfMeasureReactiveRepository,
                 ingredientToIngredientCommand, ingredientCommandToIngredient);
     }
 
@@ -64,14 +65,13 @@ public class IngredientServiceImplTest {
         recipe.addIngredient(ingredient1);
         recipe.addIngredient(ingredient2);
         recipe.addIngredient(ingredient3);
-        Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
+        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(recipe));
 
-        IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId("1", "3");
+        IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId("1", "3").block();
 
-        assertEquals("3", ingredientCommand.getId());
-        verify(recipeRepository, times(1)).findById(anyString());
+        assertEquals("3", Objects.requireNonNull(ingredientCommand).getId());
+        verify(recipeReactiveRepository, times(1)).findById(anyString());
     }
 
     @Test
@@ -80,35 +80,33 @@ public class IngredientServiceImplTest {
         ingredientCommand.setId("2");
         ingredientCommand.setRecipeId("1");
 
-        Optional<Recipe> recipeOptional = Optional.of(new Recipe());
-
         Recipe savedRecipe = new Recipe();
         savedRecipe.addIngredient(new Ingredient());
         savedRecipe.getIngredients().iterator().next().setId("2");
 
-        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
-        when(recipeRepository.save(any())).thenReturn(savedRecipe);
+        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(new Recipe()));
+        when(recipeReactiveRepository.save(any())).thenReturn(Mono.just(savedRecipe));
 
-        IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
+        IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand).block();
 
-        assertEquals("2", savedIngredientCommand.getId());
-        verify(recipeRepository, times(1)).findById(anyString());
-        verify(recipeRepository, times(1)).save(any(Recipe.class));
+        assertEquals("2", Objects.requireNonNull(savedIngredientCommand).getId());
+        verify(recipeReactiveRepository, times(1)).findById(anyString());
+        verify(recipeReactiveRepository, times(1)).save(any(Recipe.class));
     }
 
     @Test
     public void testDeleteById() {
-        Recipe recipe = new Recipe();
         Ingredient ingredient = new Ingredient();
         ingredient.setId("2");
+        Recipe recipe = new Recipe();
         recipe.addIngredient(ingredient);
-        Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
+        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(recipe));
+        when(recipeReactiveRepository.save(any())).thenReturn(Mono.just(recipe));
 
-        ingredientService.deleteById("1", "2");
+        ingredientService.deleteById("1", "2").block();
 
-        verify(recipeRepository, times(1)).findById(anyString());
-        verify(recipeRepository, times(1)).save(any(Recipe.class));
+        verify(recipeReactiveRepository, times(1)).findById(anyString());
+        verify(recipeReactiveRepository, times(1)).save(any(Recipe.class));
     }
 }

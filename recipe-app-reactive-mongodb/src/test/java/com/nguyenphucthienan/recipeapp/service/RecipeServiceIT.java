@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 
 @Ignore
@@ -43,11 +45,11 @@ public class RecipeServiceIT {
         RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
 
         // When
-        recipeCommand.setDescription(NEW_DESCRIPTION);
-        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+        Objects.requireNonNull(recipeCommand).setDescription(NEW_DESCRIPTION);
+        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand).block();
 
         // Then
-        assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());
+        assertEquals(NEW_DESCRIPTION, Objects.requireNonNull(savedRecipeCommand).getDescription());
         assertEquals(recipe.getId(), savedRecipeCommand.getId());
         assertEquals(recipe.getIngredients().size(), savedRecipeCommand.getIngredients().size());
         assertEquals(recipe.getCategories().size(), savedRecipeCommand.getCategories().size());

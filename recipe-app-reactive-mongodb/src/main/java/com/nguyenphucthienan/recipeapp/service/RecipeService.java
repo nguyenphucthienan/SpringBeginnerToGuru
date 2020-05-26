@@ -2,18 +2,18 @@ package com.nguyenphucthienan.recipeapp.service;
 
 import com.nguyenphucthienan.recipeapp.command.RecipeCommand;
 import com.nguyenphucthienan.recipeapp.domain.Recipe;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface RecipeService {
 
-    Set<Recipe> getRecipes();
+    Flux<Recipe> getRecipes();
 
-    Recipe findById(String id);
+    Mono<Recipe> findById(String id);
 
-    RecipeCommand findCommandById(String id);
+    Mono<RecipeCommand> findCommandById(String id);
 
-    RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
+    Mono<RecipeCommand> saveRecipeCommand(RecipeCommand recipeCommand);
 
-    void deleteById(String id);
+    Mono<Void> deleteById(String id);
 }

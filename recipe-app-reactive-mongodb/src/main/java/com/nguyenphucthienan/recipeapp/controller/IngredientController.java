@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Objects;
+
 @Slf4j
 @Controller
 public class IngredientController {
@@ -33,14 +35,13 @@ public class IngredientController {
     @GetMapping(value = "/recipe/{recipeId}/ingredients")
     public String listIngredients(@PathVariable String recipeId, Model model) {
         log.debug("Getting ingredient list for recipe id: " + recipeId);
-        model.addAttribute("recipe", recipeService.findCommandById(recipeId));
+        model.addAttribute("recipe", recipeService.findCommandById(recipeId).block());
         return "recipe/ingredient/list";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/new")
     public String newRecipeIngredient(@PathVariable String recipeId, Model model) {
-        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
-
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId).block();
         if (recipeCommand == null) {
             // TODO Raise exception if null
         }
@@ -50,30 +51,42 @@ public class IngredientController {
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
 
         model.addAttribute("ingredient", ingredientCommand);
-        model.addAttribute("unitOfMeasureList", unitOfMeasureService.getAllUnitOfMeasures());
+        model.addAttribute("unitOfMeasureList", unitOfMeasureService
+                .getAllUnitOfMeasures()
+                .collectList()
+                .block());
+
         return "recipe/ingredient/ingredient-form";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
     public String showRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
-        model.addAttribute("ingredient",
-                ingredientService.findByRecipeIdAndIngredientId(recipeId, id));
+        model.addAttribute("ingredient", ingredientService
+                .findByRecipeIdAndIngredientId(recipeId, id)
+                .block());
+
         return "recipe/ingredient/show";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
-        model.addAttribute("ingredient",
-                ingredientService.findByRecipeIdAndIngredientId(recipeId, id));
-        model.addAttribute("unitOfMeasureList", unitOfMeasureService.getAllUnitOfMeasures());
+        model.addAttribute("ingredient", ingredientService
+                .findByRecipeIdAndIngredientId(recipeId, id)
+                .block());
+
+        model.addAttribute("unitOfMeasureList", unitOfMeasureService
+                .getAllUnitOfMeasures()
+                .collectList()
+                .block());
+
         return "recipe/ingredient/ingredient-form";
     }
 
     @PostMapping("/recipe/{recipeId}/ingredient")
     public String saveOrUpdateIngredient(@PathVariable String recipeId, @ModelAttribute IngredientCommand ingredientCommand) {
         ingredientCommand.setRecipeId(recipeId);
-        IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
-        log.debug("Save recipe id: " + savedIngredientCommand.getRecipeId());
+        IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand).block();
+        log.debug("Save recipe id: " + Objects.requireNonNull(savedIngredientCommand).getRecipeId());
         log.debug("Save ingredient id: " + savedIngredientCommand.getId());
 
         return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() +
@@ -82,7 +95,7 @@ public class IngredientController {
 
     @GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
     public String deleteRecipeIngredient(@PathVariable String recipeId, @PathVariable String id) {
-        ingredientService.deleteById(recipeId, id);
+        ingredientService.deleteById(recipeId, id).block();
         return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 }

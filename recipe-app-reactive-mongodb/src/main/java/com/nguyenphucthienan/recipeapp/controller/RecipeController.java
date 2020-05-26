@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -27,7 +28,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(id));
+        model.addAttribute("recipe", recipeService.findById(id).block());
         return "recipe/show";
     }
 
@@ -39,7 +40,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findCommandById(id));
+        model.addAttribute("recipe", recipeService.findCommandById(id).block());
         return RECIPE_FORM_URL;
     }
 
@@ -51,14 +52,14 @@ public class RecipeController {
             return "recipe/recipe-form";
         }
 
-        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
-        return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
+        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand).block();
+        return "redirect:/recipe/" + Objects.requireNonNull(savedRecipeCommand).getId() + "/show";
     }
 
     @GetMapping("/recipe/{id}/delete")
     public String deleteRecipe(@PathVariable String id) {
         log.debug("Deleting id: " + id);
-        recipeService.deleteById(id);
+        recipeService.deleteById(id).block();
         return "redirect:/";
     }
 }

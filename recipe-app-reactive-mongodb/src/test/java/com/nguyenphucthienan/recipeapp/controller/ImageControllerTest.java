@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Mono;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,7 +46,7 @@ public class ImageControllerTest {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId("1");
 
-        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
 
         mockMvc.perform(get("/recipe/1/image-upload"))
                 .andExpect(status().isOk())
@@ -59,6 +60,8 @@ public class ImageControllerTest {
     public void handlePostImage() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("imagefile", "test.txt",
                 "text/plain", "Nguyen Phuc Thien An".getBytes());
+
+        when(imageService.saveImageFile(anyString(), any())).thenReturn(Mono.empty());
 
         mockMvc.perform(multipart("/recipe/1/image").file(multipartFile))
                 .andExpect(status().is3xxRedirection())
@@ -82,7 +85,7 @@ public class ImageControllerTest {
         }
 
         recipeCommand.setImage(bytesBoxed);
-        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
 
         // When
         MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/image"))
