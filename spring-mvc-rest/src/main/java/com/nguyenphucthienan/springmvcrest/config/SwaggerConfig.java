@@ -6,6 +6,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -16,6 +17,10 @@ import java.util.ArrayList;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    public static final String CATEGORY_TAG = "Categories";
+    public static final String CUSTOMER_TAG = "Customers";
+    public static final String VENDOR_TAG = "Vendors";
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -23,7 +28,10 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .tags(new Tag(CATEGORY_TAG, "Category Endpoints"),
+                        new Tag(CUSTOMER_TAG, "Customer Endpoints"),
+                        new Tag(VENDOR_TAG, "Vendors Endpoints"));
     }
 
     private ApiInfo apiInfo() {
