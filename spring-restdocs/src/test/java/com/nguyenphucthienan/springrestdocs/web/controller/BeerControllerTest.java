@@ -24,8 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -66,8 +65,8 @@ public class BeerControllerTest {
                                 fieldWithPath("lastModifiedDate").description("Date Updated"),
                                 fieldWithPath("beerName").description("Beer Name"),
                                 fieldWithPath("beerStyle").description("Beer Style"),
-                                fieldWithPath("upc").description("UPC of Beer"),
-                                fieldWithPath("price").description("Price"),
+                                fieldWithPath("upc").description("Beer UPC"),
+                                fieldWithPath("price").description("Beer Price"),
                                 fieldWithPath("quantityOnHand").description("Quantity on Hand")
                         )));
     }
@@ -80,7 +79,19 @@ public class BeerControllerTest {
         mockMvc.perform(post(BeerController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andDo(document("v1/beers",
+                        requestFields(
+                                fieldWithPath("id").ignored(),
+                                fieldWithPath("version").ignored(),
+                                fieldWithPath("createdDate").ignored(),
+                                fieldWithPath("lastModifiedDate").ignored(),
+                                fieldWithPath("beerName").description("Beer Name"),
+                                fieldWithPath("beerStyle").description("Beer Style"),
+                                fieldWithPath("upc").description("Beer UPC").attributes(),
+                                fieldWithPath("price").description("Beer Price"),
+                                fieldWithPath("quantityOnHand").ignored()
+                        )));
     }
 
     @Test
