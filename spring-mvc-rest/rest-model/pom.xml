@@ -9,13 +9,56 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>rest-model</artifactId>
+    <artifactId>spring-mvc-model</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rest-model</name>
+    <name>spring-mvc-model</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- The package of your generated sources -->
+                    <packageName>com.nguyenphucthienan.springmvcrest.model</packageName>
+                    <sources>
+                        <source>src/main/resources/xsd</source>
+                    </sources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
