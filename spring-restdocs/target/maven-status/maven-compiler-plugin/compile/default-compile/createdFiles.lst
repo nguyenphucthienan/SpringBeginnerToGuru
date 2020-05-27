@@ -1,0 +1,14 @@
+com\nguyenphucthienan\springrestdocs\bootstrap\BeerLoader.class
+com\nguyenphucthienan\springrestdocs\SpringRestdocsApplication.class
+com\nguyenphucthienan\springrestdocs\web\model\BeerStyleEnum.class
+com\nguyenphucthienan\springrestdocs\web\mapper\BeerMapperImpl.class
+com\nguyenphucthienan\springrestdocs\web\model\BeerPagedList.class
+com\nguyenphucthienan\springrestdocs\domain\Beer.class
+com\nguyenphucthienan\springrestdocs\web\controller\BeerController.class
+com\nguyenphucthienan\springrestdocs\web\model\BeerDto$BeerDtoBuilder.class
+com\nguyenphucthienan\springrestdocs\domain\Beer$BeerBuilder.class
+com\nguyenphucthienan\springrestdocs\web\model\BeerDto.class
+com\nguyenphucthienan\springrestdocs\web\mapper\BeerMapper.class
+com\nguyenphucthienan\springrestdocs\repository\BeerRepository.class
+com\nguyenphucthienan\springrestdocs\web\mapper\DateMapper.class
+com\nguyenphucthienan\springrestdocs\web\controller\MvcExceptionHandler.class
