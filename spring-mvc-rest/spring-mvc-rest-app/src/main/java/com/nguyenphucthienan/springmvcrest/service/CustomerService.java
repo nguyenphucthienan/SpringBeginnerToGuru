@@ -1,6 +1,6 @@
 package com.nguyenphucthienan.springmvcrest.service;
 
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
 
 import java.util.List;
 

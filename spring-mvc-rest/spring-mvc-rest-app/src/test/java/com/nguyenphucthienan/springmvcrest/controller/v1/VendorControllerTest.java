@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-// @WebAppConfiguration
 @WebMvcTest(controllers = VendorController.class)
 public class VendorControllerTest extends AbstractRestControllerTest {
 

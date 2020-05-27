@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.springmvcrest.service;
 
 import com.nguyenphucthienan.springmvcrest.api.v1.mapper.CustomerMapper;
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.controller.v1.CustomerController;
 import com.nguyenphucthienan.springmvcrest.domain.Customer;
 import com.nguyenphucthienan.springmvcrest.exception.ResourceNotFoundException;

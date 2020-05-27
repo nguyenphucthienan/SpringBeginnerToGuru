@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.springmvcrest.api.v1.mapper;
 
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.domain.Customer;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

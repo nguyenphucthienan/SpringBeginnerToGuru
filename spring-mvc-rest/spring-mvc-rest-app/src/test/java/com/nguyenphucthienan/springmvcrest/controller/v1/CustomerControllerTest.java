@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.springmvcrest.controller.v1;
 
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.controller.v1.handler.RestResponseEntityExceptionHandler;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -27,18 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CustomerControllerTest extends AbstractRestControllerTest {
 
     @Mock
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @InjectMocks
-    CustomerController customerController;
+    private CustomerController customerController;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(customerController)
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
                 .setControllerAdvice(new RestResponseEntityExceptionHandler())
                 .build();
     }
@@ -91,7 +90,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
         returnCustomerDTO.setLastName(customerDTO.getLastName());
         returnCustomerDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
-        when(customerService.saveCustomer(customerDTO)).thenReturn(returnCustomerDTO);
+        when(customerService.saveCustomer(any())).thenReturn(returnCustomerDTO);
 
         mockMvc.perform(post(CustomerController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
@@ -99,11 +98,11 @@ class CustomerControllerTest extends AbstractRestControllerTest {
                 .content(asJsonString(customerDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
-                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test
-    public void testUpdateCustomer() throws Exception {
+    public void updateCustomer() throws Exception {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName("Fred");
         customerDTO.setLastName("Flintstone");
@@ -122,7 +121,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
                 .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
-                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test
@@ -144,7 +143,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
                 .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
-                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
     @Test

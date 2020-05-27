@@ -1,8 +1,8 @@
 package com.nguyenphucthienan.springmvcrest.controller.v1;
 
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerListDTO;
 import com.nguyenphucthienan.springmvcrest.config.SwaggerConfig;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
+import com.nguyenphucthienan.springmvcrest.model.CustomerListDTO;
 import com.nguyenphucthienan.springmvcrest.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,9 @@ public class CustomerController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getCustomers() {
-        return new CustomerListDTO(customerService.getCustomers());
+        CustomerListDTO customerListDTO = new CustomerListDTO();
+        customerListDTO.getCustomers().addAll(customerService.getCustomers());
+        return customerListDTO;
     }
 
     @ApiOperation(value = "Get a customer")

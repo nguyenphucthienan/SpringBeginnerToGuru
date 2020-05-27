@@ -1,9 +1,9 @@
 package com.nguyenphucthienan.springmvcrest.service;
 
 import com.nguyenphucthienan.springmvcrest.api.v1.mapper.CustomerMapper;
-import com.nguyenphucthienan.springmvcrest.api.v1.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.bootstrap.Bootstrap;
 import com.nguyenphucthienan.springmvcrest.domain.Customer;
+import com.nguyenphucthienan.springmvcrest.model.CustomerDTO;
 import com.nguyenphucthienan.springmvcrest.repository.CategoryRepository;
 import com.nguyenphucthienan.springmvcrest.repository.CustomerRepository;
 import com.nguyenphucthienan.springmvcrest.repository.VendorRepository;
