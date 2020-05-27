@@ -7,6 +7,7 @@ import com.nguyenphucthienan.springmvcrest.domain.Customer;
 import com.nguyenphucthienan.springmvcrest.exception.ResourceNotFoundException;
 import com.nguyenphucthienan.springmvcrest.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,32 +48,25 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
-        Customer customer = customerMapper.customerDtoToCustomer(customerDTO);
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
         return saveAndReturnCustomerDTO(customer);
     }
 
     @Override
     public CustomerDTO saveCustomer(Long id, CustomerDTO customerDTO) {
-        Customer customer = customerMapper.customerDtoToCustomer(customerDTO);
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
         customer.setId(id);
         return saveAndReturnCustomerDTO(customer);
-    }
-
-    private CustomerDTO saveAndReturnCustomerDTO(Customer customer) {
-        Customer savedCustomer = customerRepository.save(customer);
-        CustomerDTO returnCustomerDTO = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnCustomerDTO.setCustomerUrl(getCustomerUrl(savedCustomer.getId()));
-        return returnCustomerDTO;
     }
 
     @Override
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
         return customerRepository.findById(id).map(customer -> {
-            if (customerDTO.getFirstName() != null) {
+            if (!StringUtils.isEmpty(customerDTO.getFirstName())) {
                 customer.setFirstName(customerDTO.getFirstName());
             }
 
-            if (customerDTO.getLastName() != null) {
+            if (!StringUtils.isEmpty(customerDTO.getLastName())) {
                 customer.setLastName(customerDTO.getLastName());
             }
 
@@ -85,6 +79,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private CustomerDTO saveAndReturnCustomerDTO(Customer customer) {
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO returnCustomerDTO = customerMapper.customerToCustomerDTO(savedCustomer);
+        returnCustomerDTO.setCustomerUrl(getCustomerUrl(savedCustomer.getId()));
+        return returnCustomerDTO;
     }
 
     private String getCustomerUrl(Long id) {
