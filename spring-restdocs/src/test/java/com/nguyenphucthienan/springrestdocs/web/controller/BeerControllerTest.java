@@ -20,6 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,19 +52,19 @@ public class BeerControllerTest {
     private BeerRepository beerRepository;
 
     @Test
-    public void getBeer() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
+    void getBeer() throws Exception {
+        given(beerRepository.findById(any())).willReturn(Optional.of(getValidBeer()));
 
         mockMvc.perform(get(BeerController.BASE_URL + "/{id}", UUID.randomUUID().toString())
                 .param("isCold", "yes")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("v1/beers",
+                .andDo(document("v1/beers-get",
                         pathParameters(
                                 parameterWithName("id").description("UUID of desired beer to get.")
                         ),
                         requestParameters(
-                                parameterWithName("isCold").description("Is beer cold query param")
+                                parameterWithName("isCold").description("Is Beer Cold Query Param")
                         ),
                         responseFields(
                                 fieldWithPath("id").description("Id of Beer"),
@@ -71,7 +75,7 @@ public class BeerControllerTest {
                                 fieldWithPath("beerStyle").description("Beer Style"),
                                 fieldWithPath("upc").description("Beer UPC"),
                                 fieldWithPath("price").description("Beer Price"),
-                                fieldWithPath("quantityOnHand").description("Quantity on Hand")
+                                fieldWithPath("minOnHand").description("Quantity on Hand")
                         )));
     }
 
@@ -86,7 +90,7 @@ public class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
                 .andExpect(status().isCreated())
-                .andDo(document("v1/beers",
+                .andDo(document("v1/beers-new",
                         requestFields(
                                 fields.withPath("id").ignored(),
                                 fields.withPath("version").ignored(),
@@ -96,7 +100,7 @@ public class BeerControllerTest {
                                 fields.withPath("beerStyle").description("Beer Style"),
                                 fields.withPath("upc").description("Beer UPC").attributes(),
                                 fields.withPath("price").description("Beer Price"),
-                                fields.withPath("quantityOnHand").ignored()
+                                fields.withPath("minOnHand").ignored()
                         )));
     }
 
@@ -111,6 +115,20 @@ public class BeerControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    private Beer getValidBeer() {
+        return Beer.builder()
+                .id(UUID.randomUUID())
+                .version(10L)
+                .createdDate(Timestamp.valueOf(LocalDateTime.now()))
+                .lastModifiedDate(Timestamp.valueOf(LocalDateTime.now()))
+                .beerName("Nice Ale")
+                .beerStyle(String.valueOf(BeerStyleEnum.ALE))
+                .price(new BigDecimal("9.99"))
+                .upc(123123123123L)
+                .minOnHand(10)
+                .build();
+    }
+
     private BeerDto getValidBeerDto() {
         return BeerDto.builder()
                 .beerName("Nice Ale")
@@ -121,6 +139,7 @@ public class BeerControllerTest {
     }
 
     private static class ConstrainedFields {
+
         private final ConstraintDescriptions constraintDescriptions;
 
         ConstrainedFields(Class<?> input) {
