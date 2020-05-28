@@ -10,6 +10,7 @@ import org.springframework.jms.support.converter.MessageType;
 public class JmsConfig {
 
     public static final String HELLO_WORLD_QUEUE = "hello-world-queue";
+    public static final String SEND_RECEIVE_QUEUE = "send-receive-queue";
 
     @Bean
     public MessageConverter messageConverter() {
